@@ -3,11 +3,11 @@ import React, { Component } from "react";
 import Home from "./pages/Home";
 
 import * as api from "./api";
+// import ShoppingCartItem from "./components/ShoppingCartItem"
 
 class App extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       products: [],
       cartItems: [],
@@ -23,6 +23,7 @@ class App extends Component {
     });
 
     api.getProducts().then((data) => {
+      console.log(data);
       this.setState({
         products: data,
         isLoading: false,
@@ -30,11 +31,49 @@ class App extends Component {
     });
   }
 
-  // handleAddToCart(productId) {}
+  handleAddToCart(productId) {
+    console.log(productId);
+    const { cartItems } = this.state;
+    console.log({ cartItems });
+    const { products } = this.state;
+    const [...rest] = products;
+    let cont = 0;
+    rest.forEach((eleme) => {
+      if (eleme.id === productId) {
+        cartItems.forEach((cItem) => {
+          if (cItem.id === productId) {
+            console.log("+1");
+          } else {
+            cont += 1;
+          }
+        });
+        if (cont === cartItems.length || cartItems.length === 0) {
+          this.setState({
+            cartItems: cartItems,
+          });
+          cartItems.push(eleme);
+        }
+      }
+    });
+  }
 
-  // handleChange(event, productId) {}
+  handleChange(event, preu, productId) {
+    console.log(event, preu, productId);
+    console.log(this);
+  }
 
-  // handleRemove(productId) {}
+  handleRemove(productId) {
+    let { cartItems } = this.state;
+    console.log(productId);
+    console.log(this);
+    console.log(cartItems);
+    const nou = cartItems.filter((elem) => elem.id !== productId);
+    cartItems = nou;
+    console.log(cartItems);
+    this.setState({
+      cartItems: cartItems,
+    });
+  }
 
   // handleDownVote(productId) {}
 
@@ -61,9 +100,15 @@ class App extends Component {
         handleDownVote={() => {}}
         handleUpVote={() => {}}
         handleSetFavorite={() => {}}
-        handleAddToCart={() => {}}
-        handleRemove={() => {}}
-        handleChange={() => {}}
+        handleAddToCart={(prop) => {
+          this.handleAddToCart(prop);
+        }}
+        handleRemove={(item) => {
+          this.handleRemove(item);
+        }}
+        handleChange={(ele, price, item) => {
+          this.handleChange(ele, price, item);
+        }}
       />
     );
   }
