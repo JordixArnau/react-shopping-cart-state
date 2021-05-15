@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import Home from "./pages/Home";
 
 import * as api from "./api";
-// import ShoppingCartItem from "./components/ShoppingCartItem"
 
 class App extends Component {
   constructor(props) {
@@ -23,7 +22,6 @@ class App extends Component {
     });
 
     api.getProducts().then((data) => {
-      console.log(data);
       this.setState({
         products: data,
         isLoading: false,
@@ -32,9 +30,7 @@ class App extends Component {
   }
 
   handleAddToCart(productId) {
-    console.log(productId);
     const { cartItems } = this.state;
-    console.log({ cartItems });
     const { products } = this.state;
     const [...rest] = products;
     let cont = 0;
@@ -42,33 +38,55 @@ class App extends Component {
       if (eleme.id === productId) {
         cartItems.forEach((cItem) => {
           if (cItem.id === productId) {
-            console.log("+1");
+            // eslint-disable-next-line
+            console.log("entra2");
+            // eslint-disable-next-line
+            const inicialQ = cItem.price / cItem.quantity;
+            // eslint-disable-next-line
+            console.log("quantity", inicialQ);
+            // eslint-disable-next-line
+            cItem.quantity += 1;
+            // eslint-disable-next-line
+            cItem.price = inicialQ * cItem.quantity;
+            // eslint-disable-next-line
+            console.log(cItem);
+            // }
           } else {
             cont += 1;
           }
         });
         if (cont === cartItems.length || cartItems.length === 0) {
-          this.setState({
-            cartItems: cartItems,
-          });
+          // eslint-disable-next-line
+          eleme.quantity = 1;
           cartItems.push(eleme);
         }
       }
     });
+    this.setState({
+      cartItems: cartItems,
+    });
   }
 
   handleChange(event, preu, productId) {
+    // eslint-disable-next-line
+    let { cartItems } = this.state;
+    // eslint-disable-next-line
     console.log(event, preu, productId);
+    // eslint-disable-next-line
     console.log(this);
   }
 
   handleRemove(productId) {
     let { cartItems } = this.state;
+    // eslint-disable-next-line
     console.log(productId);
+    // eslint-disable-next-line
     console.log(this);
+    // eslint-disable-next-line
     console.log(cartItems);
     const nou = cartItems.filter((elem) => elem.id !== productId);
     cartItems = nou;
+    // eslint-disable-next-line
     console.log(cartItems);
     this.setState({
       cartItems: cartItems,

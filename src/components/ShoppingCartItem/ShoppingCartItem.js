@@ -48,7 +48,7 @@ function ShoppingCartItem({
                         className="custom-select"
                         onChange={onHandleChange}
                         onBlur={onHandleChange}
-                        // value={quantity}
+                        value={quantity}
                       >
                         {/* {buildSelectOptions(unitsInStock)} */}
                         <option value="1">1</option>
