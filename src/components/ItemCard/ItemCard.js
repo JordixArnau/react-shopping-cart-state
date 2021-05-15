@@ -25,10 +25,10 @@ function ItemCard({
   handleAddToCart,
 }) {
   function onDownVote() {
-    handleDownVote(id);
+    handleDownVote(downVotes);
   }
   function onUpVote() {
-    handleUpVote(id);
+    handleUpVote(upVotes);
   }
   function onSetFavorite() {
     handleSetFavorite(id);

@@ -14,6 +14,7 @@ class App extends Component {
       hasError: false,
       loadingError: null,
     };
+    // this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -67,13 +68,20 @@ class App extends Component {
     });
   }
 
-  handleChange(event, preu, productId) {
+  handleChange(event, productId) {
+    const { cartItems } = this.state;
+    const num = parseInt(event.target.value, 10);
     // eslint-disable-next-line
-    let { cartItems } = this.state;
+    let elem = cartItems.find((isF) => isF.id === productId);
     // eslint-disable-next-line
-    console.log(event, preu, productId);
+    const inicialQ = elem.price / elem.quantity;
+    elem.quantity = num;
     // eslint-disable-next-line
-    console.log(this);
+    elem.price = inicialQ * elem.quantity;
+    // eslint-disable-next-line
+    this.setState({
+      cartItems: cartItems,
+    });
   }
 
   handleRemove(productId) {
@@ -93,11 +101,44 @@ class App extends Component {
     });
   }
 
-  // handleDownVote(productId) {}
+  handleDownVote(productId) {
+    const { cartItems } = this.state;
+    console.log(cartItems);
+    console.log("1R", productId.currentValue);
+    // eslint-disable-next-line
+    productId.currentValue = productId.currentValue + 1;
+    console.log("2R", productId.currentValue);
+    this.setState({
+      cartItems: cartItems,
+    });
+  }
 
-  // handleUpVote(productId) {}
+  handleUpVote(productId) {
+    const { cartItems } = this.state;
+    console.log(cartItems);
+    console.log("1R", productId.currentValue);
+    // eslint-disable-next-line
+    productId.currentValue = productId.currentValue + 1;
+    console.log("2R", productId.currentValue);
+    this.setState({
+      cartItems: cartItems,
+    });
+  }
 
-  // handleSetFavorite(productId) {}
+  handleSetFavorite(productId) {
+    const { products } = this.state;
+    // eslint-disable-next-line
+    let bolean = products.find((isF) => isF.id === productId);
+    if (bolean.isFavorite) {
+      bolean.isFavorite = false;
+    } else {
+      bolean.isFavorite = true;
+    }
+    console.log(bolean);
+    this.setState({
+      products: products,
+    });
+  }
 
   render() {
     const {
@@ -115,17 +156,23 @@ class App extends Component {
         isLoading={isLoading}
         hasError={hasError}
         loadingError={loadingError}
-        handleDownVote={() => {}}
-        handleUpVote={() => {}}
-        handleSetFavorite={() => {}}
+        handleDownVote={(item) => {
+          this.handleDownVote(item);
+        }}
+        handleUpVote={(item) => {
+          this.handleUpVote(item);
+        }}
+        handleSetFavorite={(item) => {
+          this.handleSetFavorite(item);
+        }}
         handleAddToCart={(prop) => {
           this.handleAddToCart(prop);
         }}
         handleRemove={(item) => {
           this.handleRemove(item);
         }}
-        handleChange={(ele, price, item) => {
-          this.handleChange(ele, price, item);
+        handleChange={(ele, item) => {
+          this.handleChange(ele, item);
         }}
       />
     );
